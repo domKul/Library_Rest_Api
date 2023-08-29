@@ -2,6 +2,7 @@ package com.libraryapp.library.service;
 
 import com.libraryapp.library.domain.Reader;
 import com.libraryapp.library.domain.dto.ReaderDto;
+import com.libraryapp.library.exception.ReaderNotFoundException;
 import com.libraryapp.library.mapper.ReaderMapper;
 import com.libraryapp.library.repository.ReadersRepository;
 import jakarta.transaction.Transactional;
@@ -31,6 +32,23 @@ public class ReaderService {
         return readerMapper.mapToReaderDtoList((List<Reader>) readersRepository.findAll());
     }
 
+    public ReaderDto findReaderById(long readerId){
+        if(readersRepository.existsById(readerId)){
+            return readerMapper.mapToReaderDto(readersRepository.findById(readerId).get());
+        }else{
+            throw new ReaderNotFoundException("Reader with given id not exist");
+        }
+    }
+    @Transactional
+    public ReaderDto updateReader(long readerId,final ReaderDto readerDto) {
+        if (readersRepository.existsById(readerId)) {
+            Reader getReader = readerMapper.mapToReaderForUpdate(readerId,readerDto);
+            Reader savedReader = readersRepository.save(getReader);
+            return readerMapper.mapToReaderDto(savedReader);
+        } else {
+            throw new ReaderNotFoundException("Reader with given id does not exist");
+        }
+    }
 
 
 }

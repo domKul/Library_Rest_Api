@@ -1,6 +1,7 @@
 package com.libraryapp.library.domain;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -11,7 +12,9 @@ public class Reader {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long readerId;
+    @NonNull
     private String firstName;
+    @NonNull
     private String lastName;
     private LocalDate creationDate;
 

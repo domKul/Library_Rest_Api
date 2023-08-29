@@ -14,6 +14,11 @@ public class ReaderMapper {
                 readerDto.getFirstName(),
                 readerDto.getLastName());
     }
+    public Reader mapToReaderForUpdate(long readerId,ReaderDto readerDto){
+        return new Reader(readerId,
+                readerDto.getFirstName(),
+                readerDto.getLastName());
+    }
     public ReaderDto mapToReaderDto(Reader reader){
         return new ReaderDto(reader.getFirstName(),
                 reader.getLastName());
