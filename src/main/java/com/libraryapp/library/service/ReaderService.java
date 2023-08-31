@@ -2,6 +2,7 @@ package com.libraryapp.library.service;
 
 import com.libraryapp.library.domain.Reader;
 import com.libraryapp.library.domain.dto.ReaderDto;
+import com.libraryapp.library.exception.ExceptionMessage;
 import com.libraryapp.library.exception.ReaderNotFoundException;
 import com.libraryapp.library.mapper.ReaderMapper;
 import com.libraryapp.library.repository.ReadersRepository;
@@ -29,15 +30,13 @@ public class ReaderService {
     }
 
     public List<ReaderDto> showAllReaders(){
-        return readerMapper.mapToReaderDtoList((List<Reader>) readersRepository.findAll());
+        return readerMapper.mapToReaderDtoList(readersRepository.findAll());
     }
 
     public ReaderDto findReaderById(long readerId){
-        if(readersRepository.existsById(readerId)){
-            return readerMapper.mapToReaderDto(readersRepository.findById(readerId).get());
-        }else{
-            throw new ReaderNotFoundException("Reader with given id not exist");
-        }
+        Reader reader = readersRepository.findById(readerId)
+                .orElseThrow(() -> new ReaderNotFoundException(ExceptionMessage.WRONG_PUBLICATION_ID.getMessage()));
+        return readerMapper.mapToReaderDto(reader);
     }
     @Transactional
     public ReaderDto updateReader(long readerId,final ReaderDto readerDto) {
@@ -46,8 +45,14 @@ public class ReaderService {
             Reader savedReader = readersRepository.save(getReader);
             return readerMapper.mapToReaderDto(savedReader);
         } else {
-            throw new ReaderNotFoundException("Reader with given id does not exist");
+            throw new ReaderNotFoundException(ExceptionMessage.WRONG_READER_ID.getMessage());
         }
+    }
+
+    public void deleteReaderById(long readerId) {
+        Reader reader = readersRepository.findById(readerId)
+                .orElseThrow(() -> new ReaderNotFoundException(ExceptionMessage.WRONG_READER_ID.getMessage()));
+        readersRepository.delete(reader);
     }
 
 

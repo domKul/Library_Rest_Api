@@ -1,6 +1,7 @@
 package com.libraryapp.library.controller;
 
 import com.libraryapp.library.domain.dto.ReaderDto;
+import com.libraryapp.library.exception.ReaderNotFoundException;
 import com.libraryapp.library.service.ReaderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,8 +36,14 @@ public class ReaderController {
     }
 
     @PutMapping(value = "{readerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReaderDto> updateReader(@PathVariable long readerId,@RequestBody ReaderDto readerDto){
+    public ResponseEntity<ReaderDto> updateReader(@PathVariable long readerId,@RequestBody ReaderDto readerDto)throws ReaderNotFoundException{
         return ResponseEntity.ok(readerService.updateReader(readerId, readerDto));
+    }
+
+    @DeleteMapping(value = "{readerId}")
+    public ResponseEntity<Void>deleteReader(@PathVariable long readerId)throws ReaderNotFoundException {
+        readerService.deleteReaderById(readerId);
+        return ResponseEntity.ok().build();
     }
 
 }

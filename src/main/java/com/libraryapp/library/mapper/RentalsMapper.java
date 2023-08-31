@@ -20,15 +20,21 @@ public class RentalsMapper {
         rentals.setBookCopies(bookCopies);
         return rentals;
     }
-    public RentalsDto mapToRentalsDto(Rentals rentals){
+    public RentalsDto mapToRentalsDto(Rentals rentals) {
+        if (rentals == null) {
+            return null;
+        }
+
         return new RentalsDto(
-                rentals.getBookCopies().getBookId(),
-                rentals.getReader().getReaderId(),
+                rentals.getBookCopies() != null ? rentals.getBookCopies().getBookId() : null,
+                rentals.getReader() != null ? rentals.getReader().getReaderId() : null,
                 rentals.getRentalStart(),
-                rentals.getRentalEnd());
+                rentals.getRentalEnd()
+        );
     }
 
-    public List<RentalsDto> mapToRentalsDtoList(final List<Rentals> rentals){
+
+        public List<RentalsDto> mapToRentalsDtoList(final List<Rentals> rentals){
         return rentals.stream().map(this::mapToRentalsDto).toList();
     }
 }

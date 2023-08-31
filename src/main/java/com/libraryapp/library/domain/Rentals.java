@@ -3,7 +3,6 @@ package com.libraryapp.library.domain;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,10 +13,10 @@ public class Rentals {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long rentalId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "readerId")
+    @JoinColumn(name = "reader_Id")
     private Reader reader;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "bookId")
+    @JoinColumn(name = "book_Id")
     private BookCopies bookCopies;
     private LocalDate rentalStart;
     private LocalDate rentalEnd;

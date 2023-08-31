@@ -11,7 +11,7 @@ public class BookCopies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publicationId")
+    @JoinColumn(name = "publication_Id")
     private Publications publications;
     private String status;
 

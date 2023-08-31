@@ -28,6 +28,8 @@ public class ReaderMapperTestSuite {
     }
 
 
+
+
     @Test
     void shouldMapToDto() {
         //Given

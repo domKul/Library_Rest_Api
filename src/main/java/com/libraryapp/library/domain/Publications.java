@@ -1,6 +1,8 @@
 package com.libraryapp.library.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.NotFound;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
 import java.util.Objects;
@@ -11,8 +13,11 @@ public class Publications {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long publicationId;
+    @NonNull
     private String title;
+    @NonNull
     private String author;
+    @NonNull
     private int publicationYear;
     @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BookCopies> bookCopies;
