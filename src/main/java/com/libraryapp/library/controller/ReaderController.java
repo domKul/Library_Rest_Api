@@ -31,12 +31,13 @@ public class ReaderController {
         return ResponseEntity.ok(readerService.showAllReaders());
     }
     @GetMapping(value = "{readerId}")
-    public ResponseEntity<ReaderDto> getReaderById(@PathVariable long readerId){
+    public ResponseEntity<ReaderDto> getReaderById(@PathVariable long readerId)throws ReaderNotFoundException{
         return ResponseEntity.ok(readerService.findReaderById(readerId));
     }
 
     @PutMapping(value = "{readerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReaderDto> updateReader(@PathVariable long readerId,@RequestBody ReaderDto readerDto)throws ReaderNotFoundException{
+    public ResponseEntity<ReaderDto> updateReader(@PathVariable long readerId,
+                                                  @RequestBody ReaderDto readerDto)throws ReaderNotFoundException{
         return ResponseEntity.ok(readerService.updateReader(readerId, readerDto));
     }
 
