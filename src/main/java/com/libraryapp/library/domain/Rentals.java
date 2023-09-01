@@ -1,6 +1,7 @@
 package com.libraryapp.library.domain;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -14,9 +15,11 @@ public class Rentals {
     private Long rentalId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reader_Id")
+    @NonNull
     private Reader reader;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_Id")
+    @NonNull
     private BookCopies bookCopies;
     private LocalDate rentalStart;
     private LocalDate rentalEnd;

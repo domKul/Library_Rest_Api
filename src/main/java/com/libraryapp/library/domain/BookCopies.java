@@ -1,6 +1,7 @@
 package com.libraryapp.library.domain;
 
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
 
 import java.util.Objects;
 
@@ -12,7 +13,9 @@ public class BookCopies {
     private Long bookId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publication_Id")
+    @NonNull
     private Publications publications;
+    @NonNull
     private String status;
 
     public BookCopies() {

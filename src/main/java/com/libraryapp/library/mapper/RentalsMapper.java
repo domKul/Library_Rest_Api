@@ -13,18 +13,17 @@ public class RentalsMapper {
 
 
     public Rentals mapToRentals(RentalsDto rentalsDto, Reader reader, BookCopies bookCopies) {
-        Rentals rentals = new Rentals();
-        rentals.setRentalStart(rentalsDto.getRentalStart());
-        rentals.setRentalEnd(rentalsDto.getRentalEnd());
-        rentals.setReader(reader);
-        rentals.setBookCopies(bookCopies);
-        return rentals;
+        return new Rentals(null,
+                reader,
+                bookCopies,
+                rentalsDto.rentalStart(),
+                rentalsDto.rentalEnd());
     }
+
     public RentalsDto mapToRentalsDto(Rentals rentals) {
         if (rentals == null) {
             return null;
         }
-
         return new RentalsDto(
                 rentals.getBookCopies() != null ? rentals.getBookCopies().getBookId() : null,
                 rentals.getReader() != null ? rentals.getReader().getReaderId() : null,

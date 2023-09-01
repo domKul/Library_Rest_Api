@@ -16,9 +16,9 @@ public class PublicationsMapper {
     }
     public Publications mapToPublications(PublicationsDto publicationsDto){
         return new Publications(null,
-                publicationsDto.getTitle(),
-                publicationsDto.getAuthor(),
-                publicationsDto.getPublicationYear());
+                publicationsDto.title(),
+                publicationsDto.author(),
+                publicationsDto.publicationYear());
     }
 
     public List<PublicationsDto> mapToPublicationsListDto(final List<Publications> publications){

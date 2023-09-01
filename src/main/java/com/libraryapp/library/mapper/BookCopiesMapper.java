@@ -12,9 +12,9 @@ public class BookCopiesMapper {
 
     public BookCopies mapToBookCopies(BookCopiesDto bookCopiesDto, Publications publications){
         BookCopies bookCopies = new BookCopies();
-        bookCopies.setBookId(bookCopiesDto.getBookId());
+        bookCopies.setBookId(bookCopiesDto.bookId());
         bookCopies.setPublications(publications);
-        bookCopies.setStatus(bookCopiesDto.getStatus());
+        bookCopies.setStatus(bookCopiesDto.status());
         return bookCopies;
     }
     public BookCopiesDto mapToBookCopiesDto(BookCopies bookCopies){

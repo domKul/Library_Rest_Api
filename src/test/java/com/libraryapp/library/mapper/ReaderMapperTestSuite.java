@@ -28,8 +28,6 @@ public class ReaderMapperTestSuite {
     }
 
 
-
-
     @Test
     void shouldMapToDto() {
         //Given
@@ -39,8 +37,8 @@ public class ReaderMapperTestSuite {
         ReaderDto readerDto = readerMapper.mapToReaderDto(reader);
 
         //Then
-        assertEquals(expectedDto.getFirstName(), readerDto.getFirstName());
-        assertEquals(expectedDto.getLastName(), readerDto.getLastName());
+        assertEquals(expectedDto.firstName(), readerDto.firstName());
+        assertEquals(expectedDto.lastName(), readerDto.lastName());
     }
 
     @Test

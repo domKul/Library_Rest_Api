@@ -46,7 +46,7 @@ public class PublicationsMapperTestSuite {
         PublicationsDto publicationsDto1 = publicationsMapper.mapToPublicationsDto(publications);
 
         //Then
-        assertEquals("test1", publicationsDto1.getTitle());
+        assertEquals("test1", publicationsDto1.title());
     }
 
     @Test
