@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -52,5 +54,24 @@ public class BookCopiesMapperTestSuite {
         assertEquals(publications.getPublicationId(),bookCopies1.getPublications().getPublicationId());
         assertEquals("pub1",bookCopies1.getPublications().getTitle());
         assertEquals(bookCopiesDto.bookId(),bookCopies1.getBookId());
+    }
+
+    @Test
+    void shouldMapToListBookCopies(){
+        //Given
+        List<BookCopies>bookCopiesList = List.of(new BookCopies(1L,publications,"rented"),
+                new BookCopies(2L,publications,"rented"),
+                new BookCopies(3L,publications,"retned"));
+
+        //When
+        List<BookCopiesDto> bookCopiesDtos = bookCopiesMapper.mapToListBookCopiesDto(bookCopiesList);
+
+        //Then
+        assertEquals(3,bookCopiesDtos.size());
+        assertEquals(BookCopiesDto.class,bookCopiesDtos.get(0).getClass());
+        assertEquals(BookCopiesDto.class,bookCopiesDtos.get(1).getClass());
+        assertEquals(BookCopiesDto.class,bookCopiesDtos.get(2).getClass());
+        assertEquals(1L,bookCopiesDtos.get(0).bookId());
+
     }
 }

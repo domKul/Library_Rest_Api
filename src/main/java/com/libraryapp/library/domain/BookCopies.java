@@ -10,10 +10,10 @@ import java.util.Objects;
 public class BookCopies {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "copy_id")
     private Long bookId;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publication_Id")
-    @NonNull
     private Publications publications;
     @NonNull
     private String status;
