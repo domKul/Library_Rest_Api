@@ -13,4 +13,9 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object>handleReaderNotFoundException(ReaderNotFoundException readerNotFoundException){
         return new ResponseEntity<>(readerNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler({DuplicatedPublicationException.class})
+    public ResponseEntity<Object>handleDuplicatedPublicationException(DuplicatedPublicationException duplicatedPublicationException){
+        return new ResponseEntity<>(duplicatedPublicationException.getMessage(),HttpStatus.BAD_REQUEST);
+    }
 }
