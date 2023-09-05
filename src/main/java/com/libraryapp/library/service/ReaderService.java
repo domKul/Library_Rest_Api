@@ -35,7 +35,7 @@ public class ReaderService {
 
     public ReaderDto findReaderById(long readerId){
         Reader reader = readersRepository.findById(readerId)
-                .orElseThrow(() -> new ReaderNotFoundException(ExceptionMessage.WRONG_PUBLICATION_ID.getMessage()));
+                .orElseThrow(() -> new ReaderNotFoundException(ExceptionMessage.WRONG_READER_ID.getMessage()));
         return readerMapper.mapToReaderDto(reader);
     }
     @Transactional
