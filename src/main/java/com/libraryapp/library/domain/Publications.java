@@ -1,6 +1,7 @@
 package com.libraryapp.library.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import org.hibernate.annotations.NotFound;
 import org.springframework.lang.NonNull;
 
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Table(name = "publications")
 public class Publications {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long publicationId;
     @NonNull
     private String title;

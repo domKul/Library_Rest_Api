@@ -21,7 +21,7 @@ public class PublicationsService {
     }
 
     @Transactional
-    public Publications addPublication(@Valid PublicationsDto publicationsDto) {
+    public Publications addPublication(final PublicationsDto publicationsDto) {
         String title = publicationsDto.title();
         if(publicationsRepository.existsByTitle(title)){
             throw new DuplicatedPublicationException("Publication "+ title + " already exist");

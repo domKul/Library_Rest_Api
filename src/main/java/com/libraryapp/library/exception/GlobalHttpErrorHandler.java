@@ -6,16 +6,25 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.time.LocalDate;
+
 @ControllerAdvice
 public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ReaderNotFoundException.class})
-    public ResponseEntity<Object>handleReaderNotFoundException(ReaderNotFoundException readerNotFoundException){
-        return new ResponseEntity<>(readerNotFoundException.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiErrorResponse> handleReaderNotFoundException(ReaderNotFoundException
+                                                                          readerNotFoundException) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(readerNotFoundException.getMessage(),
+                "READER_NOT_FOUND", LocalDate.now());
+        return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({DuplicatedPublicationException.class})
-    public ResponseEntity<Object>handleDuplicatedPublicationException(DuplicatedPublicationException duplicatedPublicationException){
-        return new ResponseEntity<>(duplicatedPublicationException.getMessage(),HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiErrorResponse> handleDuplicatedPublicationException(DuplicatedPublicationException
+                                                                                 duplicatedPublicationException) {
+        ApiErrorResponse errorResponse = new ApiErrorResponse(duplicatedPublicationException.getMessage(),
+                "DUPLICATED_PUBLICATION",LocalDate.now());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
 }
