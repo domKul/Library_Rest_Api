@@ -9,22 +9,24 @@ import java.util.List;
 @Component
 public class ReaderMapper {
 
-    public Reader mapToReader(ReaderDto readerDto){
-        return new Reader(null,
+    public Reader mapToReader(ReaderDto readerDto) {
+        return new Reader(
                 readerDto.firstName(),
                 readerDto.lastName());
     }
-    public Reader mapToReaderForUpdate(long readerId,ReaderDto readerDto){
+
+    public Reader mapToReaderForUpdate(long readerId, ReaderDto readerDto) {
         return new Reader(readerId,
                 readerDto.firstName(),
                 readerDto.lastName());
     }
-    public ReaderDto mapToReaderDto(Reader reader){
+
+    public ReaderDto mapToReaderDto(Reader reader) {
         return new ReaderDto(reader.getFirstName(),
                 reader.getLastName());
     }
 
-    public List<ReaderDto> mapToReaderDtoList(final List<Reader>readers){
+    public List<ReaderDto> mapToReaderDtoList(final List<Reader> readers) {
         return readers.stream().map(this::mapToReaderDto).toList();
     }
 }

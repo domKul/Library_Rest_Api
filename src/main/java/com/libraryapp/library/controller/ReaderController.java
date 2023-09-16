@@ -8,11 +8,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("v1/readers")
+@RequestMapping("api/v1/readers")
 public class ReaderController {
     private final ReaderService readerService;
 
@@ -22,27 +21,29 @@ public class ReaderController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> addReader(@RequestBody ReaderDto readerDto){
+    public ResponseEntity<Void> addReader(@RequestBody ReaderDto readerDto) {
         readerService.addReader(readerDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
     @GetMapping("getReaders")
-    public ResponseEntity<List<ReaderDto>>getReaders(){
+    public ResponseEntity<List<ReaderDto>> getReaders() {
         return ResponseEntity.ok(readerService.showAllReaders());
     }
-    @GetMapping(value = "{readerId}")
-    public ResponseEntity<ReaderDto> getReaderById(@PathVariable long readerId)throws ReaderNotFoundException{
+
+    @GetMapping(value = "getReader/{readerId}")
+    public ResponseEntity<ReaderDto> getReaderById(@PathVariable long readerId){
         return ResponseEntity.ok(readerService.findReaderById(readerId));
     }
 
-    @PutMapping(value = "{readerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "updateReader/{readerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ReaderDto> updateReader(@PathVariable long readerId,
-                                                  @RequestBody ReaderDto readerDto)throws ReaderNotFoundException{
+                                                  @RequestBody ReaderDto readerDto) {
         return ResponseEntity.ok(readerService.updateReader(readerId, readerDto));
     }
 
-    @DeleteMapping(value = "{readerId}")
-    public ResponseEntity<Void>deleteReader(@PathVariable long readerId)throws ReaderNotFoundException {
+    @DeleteMapping(value = "deleteReader/{readerId}")
+    public ResponseEntity<Void> deleteReader(@PathVariable long readerId) {
         readerService.deleteReaderById(readerId);
         return ResponseEntity.ok().build();
     }

@@ -35,6 +35,13 @@ public class Rentals {
         this.rentalEnd = rentalEnd;
     }
 
+    public Rentals(Reader reader, BookCopies bookCopies, LocalDate rentalStart, LocalDate rentalEnd) {
+        this.reader = reader;
+        this.bookCopies = bookCopies;
+        this.rentalStart = rentalStart;
+        this.rentalEnd = rentalEnd;
+    }
+
     public Long getRentalId() {
         return rentalId;
     }

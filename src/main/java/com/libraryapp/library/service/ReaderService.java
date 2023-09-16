@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,29 +27,41 @@ public class ReaderService {
 
     @Transactional
     public Reader addReader(@Valid final ReaderDto readerDto) {
-        Reader reader = readerMapper.mapToReader(readerDto);
-        return readersRepository.save(reader);
+        try{
+            Reader reader = readerMapper.mapToReader(readerDto);
+            return readersRepository.save(reader);
+        }catch (RuntimeException e){
+            throw new RuntimeException("An error occurred while adding the reader: " + e.getMessage(), e);
+
+        }
     }
 
     public List<ReaderDto> showAllReaders() {
-        return readerMapper.mapToReaderDtoList(readersRepository.findAll());
+        try{
+            List<Reader> all = readersRepository.findAll();
+            return readerMapper.mapToReaderDtoList(all);
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
     }
 
-    public ReaderDto findReaderById( long readerId) {
+    public ReaderDto findReaderById(long readerId) {
         Reader reader = readersRepository.findById(readerId)
                 .orElseThrow(() -> new ReaderNotFoundException(ExceptionMessage.WRONG_READER_ID.getMessage()));
         return readerMapper.mapToReaderDto(reader);
     }
 
     @Transactional
-    public ReaderDto updateReader(long readerId,@Valid final ReaderDto readerDto) {
-        if (readersRepository.existsById(readerId)) {
-            Reader mapReader = readerMapper.mapToReaderForUpdate(readerId, readerDto);
-            Reader savedReader = readersRepository.save(mapReader);
-            return readerMapper.mapToReaderDto(savedReader);
-        } else {
-            throw new ReaderNotFoundException(ExceptionMessage.WRONG_READER_ID.getMessage());
-        }
+    public ReaderDto updateReader(long readerId, @Valid final ReaderDto readerDto) {
+        return readersRepository.findById(readerId)
+                .map(existingReader->{
+                            Reader mapReader = readerMapper.mapToReaderForUpdate(readerId, readerDto);
+                            Reader savedReader = readersRepository.save(mapReader);
+                            return readerMapper.mapToReaderDto(savedReader);
+                        })
+                .orElseThrow(() -> new ReaderNotFoundException(ExceptionMessage.WRONG_READER_ID.getMessage()));
+
     }
 
     @Transactional

@@ -1,8 +1,6 @@
 package com.libraryapp.library.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import org.hibernate.annotations.NotFound;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -20,10 +18,8 @@ public class Publications {
     private String author;
     @NonNull
     private int publicationYear;
-    @OneToMany(mappedBy = "publications",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "publications", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<BookCopies> bookCopies;
-
-
 
 
     public Publications() {
@@ -31,6 +27,14 @@ public class Publications {
 
     public Publications(Long publicationId, String title, String author, int publicationYear) {
         this.publicationId = publicationId;
+        this.title = title;
+        this.author = author;
+        this.publicationYear = publicationYear;
+
+
+    }
+
+    public Publications(String title, String author, int publicationYear) {
         this.title = title;
         this.author = author;
         this.publicationYear = publicationYear;

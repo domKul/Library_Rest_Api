@@ -7,5 +7,5 @@ public record RentalsDto
          Long bookId,
          LocalDate rentalStart,
          LocalDate rentalEnd
-        ){
+        ) {
 }

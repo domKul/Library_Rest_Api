@@ -12,18 +12,16 @@ import java.time.LocalDate;
 public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({ReaderNotFoundException.class})
-    public ResponseEntity<ApiErrorResponse> handleReaderNotFoundException(ReaderNotFoundException
-                                                                          readerNotFoundException) {
+    public ResponseEntity<ApiErrorResponse> handleReaderNotFoundException(ReaderNotFoundException readerNotFoundException) {
         ApiErrorResponse errorResponse = new ApiErrorResponse(readerNotFoundException.getMessage(),
                 "READER_NOT_FOUND", LocalDate.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler({DuplicatedPublicationException.class})
-    public ResponseEntity<ApiErrorResponse> handleDuplicatedPublicationException(DuplicatedPublicationException
-                                                                                 duplicatedPublicationException) {
+    public ResponseEntity<ApiErrorResponse> handleDuplicatedPublicationException(DuplicatedPublicationException duplicatedPublicationException) {
         ApiErrorResponse errorResponse = new ApiErrorResponse(duplicatedPublicationException.getMessage(),
-                "DUPLICATED_PUBLICATION",LocalDate.now());
+                "DUPLICATED_PUBLICATION", LocalDate.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 

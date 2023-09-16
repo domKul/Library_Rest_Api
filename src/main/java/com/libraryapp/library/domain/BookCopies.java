@@ -27,6 +27,11 @@ public class BookCopies {
         this.status = status;
     }
 
+    public BookCopies(Publications publications, @NonNull String status) {
+        this.publications = publications;
+        this.status = status;
+    }
+
     public Long getBookId() {
         return bookId;
     }

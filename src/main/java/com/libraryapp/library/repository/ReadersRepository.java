@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ReadersRepository extends CrudRepository<Reader,Long> {
-    List<Reader>findAll();
+public interface ReadersRepository extends CrudRepository<Reader, Long> {
+    List<Reader> findAll();
 }

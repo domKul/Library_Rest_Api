@@ -52,7 +52,6 @@ public class ReaderControllerTestSuite {
                         .content(objectMapper.writeValueAsString(reader)))
                 .andExpect(status().isCreated());
 
-
     }
 
     @Test

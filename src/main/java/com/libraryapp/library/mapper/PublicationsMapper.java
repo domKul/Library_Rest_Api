@@ -9,19 +9,20 @@ import java.util.List;
 @Component
 public class PublicationsMapper {
 
-    public PublicationsDto mapToPublicationsDto(Publications publications){
+    public PublicationsDto mapToPublicationsDto(Publications publications) {
         return new PublicationsDto(publications.getTitle(),
                 publications.getTitle(),
                 publications.getPublicationYear());
     }
-    public Publications mapToPublications(PublicationsDto publicationsDto){
-        return new Publications(null,
+
+    public Publications mapToPublications(PublicationsDto publicationsDto) {
+        return new Publications(
                 publicationsDto.title(),
                 publicationsDto.author(),
                 publicationsDto.publicationYear());
     }
 
-    public List<PublicationsDto> mapToPublicationsListDto(final List<Publications> publications){
+    public List<PublicationsDto> mapToPublicationsListDto(final List<Publications> publications) {
         return publications.stream()
                 .map(this::mapToPublicationsDto)
                 .toList();

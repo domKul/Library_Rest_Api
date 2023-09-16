@@ -29,6 +29,12 @@ public class Reader {
         this.creationDate = LocalDate.now();
     }
 
+    public Reader(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.creationDate = LocalDate.now();
+    }
+
     public LocalDate getCreationDate() {
         return creationDate;
     }

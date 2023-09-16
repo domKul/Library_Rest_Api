@@ -12,9 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class RentalsMapperTestSuite {
@@ -43,10 +43,11 @@ public class RentalsMapperTestSuite {
 
 
         //When
-        RentalsDto rentalsDto = rentalsMapper.mapToRentalsDto(rentals);
+        Optional<RentalsDto> rentalsDto = rentalsMapper.mapToRentalsDto(rentals);
 
         //Then
-        assertEquals(RentalsDto.class, rentalsDto.getClass());
+        assertTrue(rentalsDto.isPresent());
+        assertEquals(RentalsDto.class, rentalsDto.get().getClass());
     }
 
     @Test
@@ -54,10 +55,10 @@ public class RentalsMapperTestSuite {
         // Given
 
         // When
-        RentalsDto rentalsDto = rentalsMapper.mapToRentalsDto(null);
+        Optional<RentalsDto> rentalsDto = rentalsMapper.mapToRentalsDto(null);
 
         // Then
-        assertNull(rentalsDto);
+        assertEquals(Optional.empty(),rentalsDto);
     }
 
     @Test
@@ -77,12 +78,20 @@ public class RentalsMapperTestSuite {
         List<Rentals> readersList = List.of(new Rentals(), new Rentals(), new Rentals());
 
         //When
-        List<RentalsDto> rentalsDtos = rentalsMapper.mapToRentalsDtoList(readersList);
+        List<Optional<RentalsDto>> rentalsDtos = rentalsMapper.mapToRentalsDtoList(readersList);
 
 
         //Then
-        assertEquals(RentalsDto.class, rentalsDtos.get(0).getClass());
         assertEquals(3, rentalsDtos.size());
+
+        for (Optional<RentalsDto> optionalDto : rentalsDtos){
+            assertTrue(optionalDto.isPresent());
+
+            RentalsDto dto = optionalDto.get();
+            assertNotNull(dto);
+        }
+
+
     }
 
 }
