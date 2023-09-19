@@ -47,7 +47,7 @@ public class ReaderControllerTestSuite {
 
 
         //When && Then
-        mockMvc.perform(post("/v1/readers")
+        mockMvc.perform(post("/api/v1/readers/add")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(reader)))
                 .andExpect(status().isCreated());
@@ -65,7 +65,7 @@ public class ReaderControllerTestSuite {
         given(readerService.findReaderById(reader.getReaderId())).willReturn(readerDto);
 
         //When && Then
-        mockMvc.perform(get("/v1/readers/" + readerId)
+        mockMvc.perform(get("/api/v1/readers/get/" + readerId)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName").value(reader.getFirstName()))
@@ -85,7 +85,7 @@ public class ReaderControllerTestSuite {
 
         //When && Then
 
-        mockMvc.perform(get("/v1/readers/getReaders")
+        mockMvc.perform(get("/api/v1/readers/all")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.size()").value(2))
                 .andExpect(jsonPath("$[0].firstName").value("firstName1"))
@@ -103,7 +103,7 @@ public class ReaderControllerTestSuite {
         given(readerService.addReader(readerDto)).willReturn(reader);
 
         //When
-        mockMvc.perform(delete("/v1/readers/{readerId}" , reader.getReaderId()))
+        mockMvc.perform(delete("/api/v1/readers/delete/" + reader.getReaderId()))
                 .andExpect(status().isOk());
 
         //Then
@@ -121,7 +121,7 @@ public class ReaderControllerTestSuite {
         given(readerService.updateReader(reader.getReaderId(),readerDto)).willReturn(readerDtoUpdate);
 
         //When
-        mockMvc.perform(put("/v1/readers/{readerId}", reader.getReaderId())
+        mockMvc.perform(put("/api/v1/readers/update/"+ reader.getReaderId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(readerDto)))
                 .andExpect(jsonPath("$.firstName").value("dto1update"));

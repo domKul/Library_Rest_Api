@@ -24,5 +24,12 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
                 "DUPLICATED_PUBLICATION", LocalDate.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(PublicationNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse>handlePublicationTitleNotFound(PublicationNotFoundException publicationNotFoundException){
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(publicationNotFoundException.getMessage(),
+                HttpStatus.NOT_FOUND.toString(),LocalDate.now());
+        return new ResponseEntity<>(apiErrorResponse,HttpStatus.NOT_FOUND);
+    }
+
 
 }

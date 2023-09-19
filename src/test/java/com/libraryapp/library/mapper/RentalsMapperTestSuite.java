@@ -75,7 +75,11 @@ public class RentalsMapperTestSuite {
     @Test
     void shouldMapToList() {
         //Given
-        List<Rentals> readersList = List.of(new Rentals(), new Rentals(), new Rentals());
+
+
+        List<Rentals> readersList = List.of(new Rentals(reader,bookCopies,LocalDate.now(),LocalDate.now().plusDays(1)),
+                new Rentals(reader,bookCopies,LocalDate.now(),LocalDate.now().plusDays(1)),
+                new Rentals(reader,bookCopies,LocalDate.now(),LocalDate.now().plusDays(1)));
 
         //When
         List<Optional<RentalsDto>> rentalsDtos = rentalsMapper.mapToRentalsDtoList(readersList);

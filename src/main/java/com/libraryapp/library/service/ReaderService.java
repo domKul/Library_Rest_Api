@@ -26,7 +26,7 @@ public class ReaderService {
     }
 
     @Transactional
-    public Reader addReader(@Valid final ReaderDto readerDto) {
+    public Reader addReader(final ReaderDto readerDto) {
         try{
             Reader reader = readerMapper.mapToReader(readerDto);
             return readersRepository.save(reader);
@@ -53,7 +53,7 @@ public class ReaderService {
     }
 
     @Transactional
-    public ReaderDto updateReader(long readerId, @Valid final ReaderDto readerDto) {
+    public ReaderDto updateReader(long readerId, final ReaderDto readerDto) {
         return readersRepository.findById(readerId)
                 .map(existingReader->{
                             Reader mapReader = readerMapper.mapToReaderForUpdate(readerId, readerDto);
