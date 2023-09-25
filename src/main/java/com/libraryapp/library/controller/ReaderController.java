@@ -19,32 +19,31 @@ public class ReaderController {
         this.readerService = readerService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,value = "add")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "add")
     public ResponseEntity<Void> addReader(@RequestBody ReaderDto readerDto) {
         readerService.addReader(readerDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("all")
-    public ResponseEntity<List<ReaderDto>> getReaders() {
-        return ResponseEntity.ok(readerService.showAllReaders());
+    public List<ReaderDto> getReaders() {
+        return readerService.showAllReaders();
     }
 
     @GetMapping(value = "get/{readerId}")
-    public ResponseEntity<ReaderDto> getReaderById(@PathVariable long readerId){
-        return ResponseEntity.ok(readerService.findReaderById(readerId));
+    public ReaderDto getReaderById(@PathVariable long readerId) {
+        return readerService.findReaderById(readerId);
     }
 
     @PutMapping(value = "update/{readerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<ReaderDto> updateReader(@PathVariable long readerId,
-                                                  @RequestBody ReaderDto readerDto) {
-        return ResponseEntity.ok(readerService.updateReader(readerId, readerDto));
+    public ReaderDto updateReader(@PathVariable long readerId,
+                                  @RequestBody ReaderDto readerDto) {
+        return readerService.updateReader(readerId, readerDto);
     }
 
     @DeleteMapping(value = "delete/{readerId}")
-    public ResponseEntity<Void> deleteReader(@PathVariable long readerId) {
+    public void deleteReader(@PathVariable long readerId) {
         readerService.deleteReaderById(readerId);
-        return ResponseEntity.ok().build();
     }
 
 }

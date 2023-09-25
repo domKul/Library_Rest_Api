@@ -19,25 +19,26 @@ public class PublicationController {
         this.publicationsService = publicationsService;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,value = "add")
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, value = "add")
     public ResponseEntity<Void> createPublication(@RequestBody PublicationsDto publicationsDto) {
         publicationsService.addPublication(publicationsDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping(value = "by-name/{title}")
-    public ResponseEntity<PublicationsDto> findPublicationByName(@PathVariable String title){
-        return ResponseEntity.ok(publicationsService.findPublicationByTitle(title));
+    public PublicationsDto findPublicationByName(@PathVariable String title) {
+        return publicationsService.findPublicationByTitle(title);
     }
 
     @GetMapping(value = "all")
-    public ResponseEntity<List<PublicationsDto>>showAllPublications(){
-        return ResponseEntity.ok(publicationsService.findAllPublications());
+    public List<PublicationsDto> showAllPublications() {
+        return publicationsService.findAllPublications();
     }
+
     @DeleteMapping(value = "delete/{title}")
-    public ResponseEntity<Void>deletePublicationByTitle(@PathVariable String title){
-         publicationsService.deletePublicationByTitle(title);
-         return ResponseEntity.accepted().build();
+    public void deletePublicationByTitle(@PathVariable String title) {
+        publicationsService.deletePublicationByTitle(title);
+
     }
 
 }
