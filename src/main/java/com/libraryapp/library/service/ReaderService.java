@@ -7,7 +7,6 @@ import com.libraryapp.library.exception.ReaderNotFoundException;
 import com.libraryapp.library.mapper.ReaderMapper;
 import com.libraryapp.library.repository.ReadersRepository;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

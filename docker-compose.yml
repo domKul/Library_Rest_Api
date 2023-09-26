@@ -1,0 +1,29 @@
+version: '3'
+services:
+  # Kontener dla aplikacji Spring Boot
+  spring-app:
+    image: 00a7b1d77a4d333215100940eea5a11689e712088e1f7834b6e2853c366c02cb
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/library?serverTimezone=Europe/Warsaw&useSSL=False&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: kodilla_user
+      SPRING_DATASOURCE_PASSWORD: kodilla_password
+      SPRING_JPA_DATABASE: mysql
+      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL5Dialect
+
+  # Kontener dla bazy danych MySQL
+  mysql-db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: library
+      MYSQL_USER: kodilla_user
+      MYSQL_PASSWORD: kodilla_password
+      MYSQL_ALLOW_PUBLIC_KEY_RETRIEVAL: 'true'

@@ -1,6 +1,5 @@
 package com.libraryapp.library.domain.dto;
 
-import com.libraryapp.library.domain.Publications;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
