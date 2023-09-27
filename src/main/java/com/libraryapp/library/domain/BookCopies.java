@@ -12,22 +12,22 @@ public class BookCopies {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "copy_id")
     private Long bookId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "publication_Id")
-    private Publications publications;
+    @JoinColumn(name = "publication_id")
+    @Column(name = "publicationId")
+    private Long publications;
     @NonNull
     private String status;
 
     public BookCopies() {
     }
 
-    public BookCopies(Long bookId, Publications publications, String status) {
+    public BookCopies(Long bookId, Long publications, String status) {
         this.bookId = bookId;
         this.publications = publications;
         this.status = status;
     }
 
-    public BookCopies(Publications publications, @NonNull String status) {
+    public BookCopies(Long publications, @NonNull String status) {
         this.publications = publications;
         this.status = status;
     }
@@ -40,11 +40,11 @@ public class BookCopies {
         this.bookId = bookId;
     }
 
-    public Publications getPublications() {
+    public Long getPublications() {
         return publications;
     }
 
-    public void setPublications(Publications publications) {
+    public void setPublications(Long publications) {
         this.publications = publications;
     }
 

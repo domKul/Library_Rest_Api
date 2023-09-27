@@ -32,7 +32,7 @@ public class RentalsMapperTestSuite {
     void testData() {
         reader = new Reader(0L, "testreader1", "testreader1");
         publications = new Publications(0L, "testpublication1", "testpublication1", 2000);
-        bookCopies = new BookCopies(0L, publications, "testbook1");
+        bookCopies = new BookCopies(0L, publications.getPublicationId(), "testbook1");
         rentals = new Rentals(0L, reader, bookCopies, LocalDate.now(), LocalDate.now().plusDays(1));
         rentalsDto = new RentalsDto(reader.getReaderId(), bookCopies.getBookId(), LocalDate.now(), LocalDate.now().plusDays(1));
     }

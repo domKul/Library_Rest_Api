@@ -25,7 +25,7 @@ public class BookCopiesMapperTestSuite {
     @BeforeEach
     void testData(){
         publications = new Publications(0L,"pub1","author1",2012);
-        bookCopies = new BookCopies(0L,publications,"status1");
+        bookCopies = new BookCopies(0L,publications.getPublicationId(),"status1");
         bookCopiesDto = new BookCopiesDto(0L,publications.getPublicationId(),"dto1");
 
     }
@@ -47,21 +47,21 @@ public class BookCopiesMapperTestSuite {
         //Given
 
         //Whne
-        BookCopies bookCopies1 = bookCopiesMapper.mapToBookCopies(bookCopiesDto, publications);
+        BookCopies bookCopies1 = bookCopiesMapper.mapToBookCopies(bookCopiesDto);
 
         //Then
         assertEquals(BookCopies.class,bookCopies1.getClass());
-        assertEquals(publications.getPublicationId(),bookCopies1.getPublications().getPublicationId());
-        assertEquals("pub1",bookCopies1.getPublications().getTitle());
+        assertEquals(publications.getPublicationId(),bookCopies1.getPublications());
+        assertEquals(0L,bookCopies1.getPublications());
         assertEquals(bookCopiesDto.bookId(),bookCopies1.getBookId());
     }
 
     @Test
     void shouldMapToListBookCopies(){
         //Given
-        List<BookCopies>bookCopiesList = List.of(new BookCopies(1L,publications,"rented"),
-                new BookCopies(2L,publications,"rented"),
-                new BookCopies(3L,publications,"retned"));
+        List<BookCopies>bookCopiesList = List.of(new BookCopies(1L,publications.getPublicationId(),"rented"),
+                new BookCopies(2L,publications.getPublicationId(),"rented"),
+                new BookCopies(3L,publications.getPublicationId(),"retned"));
 
         //When
         List<BookCopiesDto> bookCopiesDtos = bookCopiesMapper.mapToListBookCopiesDto(bookCopiesList);

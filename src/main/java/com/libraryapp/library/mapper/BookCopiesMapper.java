@@ -1,7 +1,6 @@
 package com.libraryapp.library.mapper;
 
 import com.libraryapp.library.domain.BookCopies;
-import com.libraryapp.library.domain.Publications;
 import com.libraryapp.library.domain.dto.BookCopiesDto;
 import org.springframework.stereotype.Component;
 
@@ -10,17 +9,16 @@ import java.util.List;
 @Component
 public class BookCopiesMapper {
 
-    public BookCopies mapToBookCopies(BookCopiesDto bookCopiesDto, Publications publications) {
-        BookCopies bookCopies = new BookCopies();
-        bookCopies.setBookId(bookCopiesDto.bookId());
-        bookCopies.setPublications(publications);
-        bookCopies.setStatus(bookCopiesDto.status());
-        return bookCopies;
+    public BookCopies mapToBookCopies(BookCopiesDto bookCopiesDto) {
+        return new BookCopies(
+                bookCopiesDto.publicationId(),
+                bookCopiesDto.status()
+        );
     }
 
     public BookCopiesDto mapToBookCopiesDto(BookCopies bookCopies) {
-        Long publicationId = (bookCopies.getPublications() != null) ? bookCopies.getPublications().getPublicationId() : null;
-        return new BookCopiesDto(bookCopies.getBookId(),
+        Long publicationId = (bookCopies.getPublications() != null) ? bookCopies.getPublications() : null;
+        return new BookCopiesDto(
                 publicationId,
                 bookCopies.getStatus());
     }

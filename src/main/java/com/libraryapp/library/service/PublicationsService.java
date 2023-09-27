@@ -8,13 +8,16 @@ import com.libraryapp.library.exception.PublicationNotFoundException;
 import com.libraryapp.library.mapper.PublicationsMapper;
 import com.libraryapp.library.repository.PublicationsRepository;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PublicationsService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PublicationsService.class);
 
     private final PublicationsRepository publicationsRepository;
     private final PublicationsMapper publicationsMapper;
@@ -30,8 +33,14 @@ public class PublicationsService {
         if (publicationsRepository.existsByTitle(title)) {
             throw new DuplicatedPublicationException("Publication " + title + " already exist");
         }
-        Publications createdPublication = publicationsMapper.mapToPublications(publicationsDto);
-        return publicationsRepository.save(createdPublication);
+        try{
+            Publications createdPublication = publicationsMapper.mapToPublications(publicationsDto);
+            LOGGER.info("Publication saved");
+            return publicationsRepository.save(createdPublication);
+        }catch (RuntimeException e){
+            LOGGER.error("An Error has occurred"+ e.getMessage());
+            throw new RuntimeException("An error occurred while adding the reader: " + e.getMessage(), e);
+        }
     }
 
     @Transactional
@@ -39,16 +48,15 @@ public class PublicationsService {
         Publications findPublication = publicationsRepository.findById(publicationId)
                 .orElseThrow(() -> new PublicationNotFoundException(ExceptionMessage.WRONG_PUBLICATION_ID.getMessage()));
         publicationsRepository.delete(findPublication);
+        LOGGER.info("Publication with ID " + findPublication.getPublicationId());
     }
 
     public List<PublicationsDto> findAllPublications() {
-        try {
-            List<Publications> all = publicationsRepository.findAll();
-            return publicationsMapper.mapToPublicationsListDto(all);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return new ArrayList<>();
-        }
+
+        List<Publications> allPublications = publicationsRepository.findAll();
+        return allPublications.stream()
+                .map(publicationsMapper::mapToPublicationsDto)
+                .collect(Collectors.toList());
     }
 
     public PublicationsDto findPublicationByTitle(String name) {
@@ -57,10 +65,10 @@ public class PublicationsService {
         return publicationsMapper.mapToPublicationsDto(publication);
     }
 
-    @Transactional
     public void deletePublicationByTitle(String title) {
         Publications publication = publicationsRepository.findByTitle(title)
                 .orElseThrow(() -> new PublicationNotFoundException("Publication with title " + title + " not found"));
         publicationsRepository.delete(publication);
+        LOGGER.info("Publication" + title + "deleted");
     }
 }
