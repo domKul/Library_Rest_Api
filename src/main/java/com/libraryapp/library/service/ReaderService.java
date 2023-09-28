@@ -6,10 +6,10 @@ import com.libraryapp.library.exception.ExceptionMessage;
 import com.libraryapp.library.exception.ReaderNotFoundException;
 import com.libraryapp.library.mapper.ReaderMapper;
 import com.libraryapp.library.repository.ReadersRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -76,6 +76,8 @@ public class ReaderService {
          readersRepository.delete(reader);
          LOGGER.info("Reader with ID " + reader.getReaderId()+ "deleted");
     }
+
+
 
 
 }

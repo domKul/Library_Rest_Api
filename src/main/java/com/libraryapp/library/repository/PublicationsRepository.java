@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface PublicationsRepository extends JpaRepository<Publications, Long> {
     boolean existsByTitle(String title);
 
-    Optional<Publications> findByTitle(String name);
+    Optional<Publications> findByTitle(String title);
 
     List<Publications> findAll();
 }

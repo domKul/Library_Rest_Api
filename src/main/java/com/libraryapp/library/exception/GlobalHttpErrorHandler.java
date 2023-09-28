@@ -31,5 +31,19 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiErrorResponse,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(BookCopyNotFound.class)
+    public ResponseEntity<ApiErrorResponse>handleBookCopyNotFound(BookCopyNotFound bookCopyNotFound){
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(bookCopyNotFound.getMessage(),
+                HttpStatus.NOT_FOUND.toString(),LocalDate.now());
+        return new ResponseEntity<>(apiErrorResponse,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BookCopyAlreadyTakenException.class)
+    public ResponseEntity<ApiErrorResponse>handleProblemWithBorrowCreation(BookCopyAlreadyTakenException bookCopyAlreadyTakenException){
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(bookCopyAlreadyTakenException.getMessage(),
+                HttpStatus.BAD_REQUEST.toString(),LocalDate.now());
+        return new ResponseEntity<>(apiErrorResponse,HttpStatus.BAD_REQUEST);
+    }
+
 
 }

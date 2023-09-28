@@ -7,10 +7,10 @@ import com.libraryapp.library.exception.ExceptionMessage;
 import com.libraryapp.library.exception.PublicationNotFoundException;
 import com.libraryapp.library.mapper.PublicationsMapper;
 import com.libraryapp.library.repository.PublicationsRepository;
-import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,16 +52,17 @@ public class PublicationsService {
     }
 
     public List<PublicationsDto> findAllPublications() {
-
         List<Publications> allPublications = publicationsRepository.findAll();
+        LOGGER.info("all publications are found");
         return allPublications.stream()
                 .map(publicationsMapper::mapToPublicationsDto)
                 .collect(Collectors.toList());
     }
 
-    public PublicationsDto findPublicationByTitle(String name) {
-        Publications publication = publicationsRepository.findByTitle(name)
+    public PublicationsDto findPublicationByTitle(String title) {
+        Publications publication = publicationsRepository.findByTitle(title)
                 .orElseThrow(() -> new PublicationNotFoundException("Publication not found"));
+        LOGGER.info("publication with title " + title + " found");
         return publicationsMapper.mapToPublicationsDto(publication);
     }
 

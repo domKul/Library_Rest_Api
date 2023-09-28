@@ -2,7 +2,7 @@ package com.libraryapp.library.domain.dto;
 
 import java.time.LocalDate;
 
-public record RentalsDto
+public record BorrowDto
         (Long readerId,
          Long bookId,
          LocalDate rentalStart,

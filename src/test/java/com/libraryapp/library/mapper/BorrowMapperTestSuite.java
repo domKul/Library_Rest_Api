@@ -3,8 +3,8 @@ package com.libraryapp.library.mapper;
 import com.libraryapp.library.domain.BookCopies;
 import com.libraryapp.library.domain.Publications;
 import com.libraryapp.library.domain.Reader;
-import com.libraryapp.library.domain.Rentals;
-import com.libraryapp.library.domain.dto.RentalsDto;
+import com.libraryapp.library.domain.Borrow;
+import com.libraryapp.library.domain.dto.BorrowDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,24 +17,24 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-public class RentalsMapperTestSuite {
+public class BorrowMapperTestSuite {
 
     @Autowired
-    private RentalsMapper rentalsMapper;
+    private BorrowMapper borrowMapper;
 
     Reader reader;
     BookCopies bookCopies;
     Publications publications;
-    Rentals rentals;
-    RentalsDto rentalsDto;
+    Borrow borrow;
+    BorrowDto borrowDto;
 
     @BeforeEach
     void testData() {
         reader = new Reader(0L, "testreader1", "testreader1");
         publications = new Publications(0L, "testpublication1", "testpublication1", 2000);
         bookCopies = new BookCopies(0L, publications.getPublicationId(), "testbook1");
-        rentals = new Rentals(0L, reader, bookCopies, LocalDate.now(), LocalDate.now().plusDays(1));
-        rentalsDto = new RentalsDto(reader.getReaderId(), bookCopies.getBookId(), LocalDate.now(), LocalDate.now().plusDays(1));
+        borrow = new Borrow(0L, 0L, 0L, LocalDate.now(), LocalDate.now().plusDays(1));
+        borrowDto = new BorrowDto(reader.getReaderId(), bookCopies.getBookId(), LocalDate.now(), LocalDate.now().plusDays(1));
     }
 
     @Test
@@ -43,11 +43,11 @@ public class RentalsMapperTestSuite {
 
 
         //When
-        Optional<RentalsDto> rentalsDto = rentalsMapper.mapToRentalsDto(rentals);
+        Optional<BorrowDto> rentalsDto = borrowMapper.mapToBorrowDto(borrow);
 
         //Then
         assertTrue(rentalsDto.isPresent());
-        assertEquals(RentalsDto.class, rentalsDto.get().getClass());
+        assertEquals(BorrowDto.class, rentalsDto.get().getClass());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class RentalsMapperTestSuite {
         // Given
 
         // When
-        Optional<RentalsDto> rentalsDto = rentalsMapper.mapToRentalsDto(null);
+        Optional<BorrowDto> rentalsDto = borrowMapper.mapToBorrowDto(null);
 
         // Then
         assertEquals(Optional.empty(),rentalsDto);
@@ -66,10 +66,10 @@ public class RentalsMapperTestSuite {
         //Given
 
         //When
-        Rentals rentals1 = rentalsMapper.mapToRentals(rentalsDto, reader, bookCopies);
+        Borrow borrow1 = borrowMapper.mapToBorrow(borrowDto);
 
         //Then
-        assertEquals(Rentals.class, rentals1.getClass());
+        assertEquals(Borrow.class, borrow1.getClass());
     }
 
     @Test
@@ -77,21 +77,21 @@ public class RentalsMapperTestSuite {
         //Given
 
 
-        List<Rentals> readersList = List.of(new Rentals(reader,bookCopies,LocalDate.now(),LocalDate.now().plusDays(1)),
-                new Rentals(reader,bookCopies,LocalDate.now(),LocalDate.now().plusDays(1)),
-                new Rentals(reader,bookCopies,LocalDate.now(),LocalDate.now().plusDays(1)));
+        List<Borrow> readersList = List.of(new Borrow(1L,1L,LocalDate.now(),LocalDate.now().plusDays(1)),
+                new Borrow(1L,1L,LocalDate.now(),LocalDate.now().plusDays(1)),
+                new Borrow(1L,1L,LocalDate.now(),LocalDate.now().plusDays(1)));
 
         //When
-        List<Optional<RentalsDto>> rentalsDtos = rentalsMapper.mapToRentalsDtoList(readersList);
+        List<Optional<BorrowDto>> rentalsDtos = borrowMapper.mapToBorrowDtoList(readersList);
 
 
         //Then
         assertEquals(3, rentalsDtos.size());
 
-        for (Optional<RentalsDto> optionalDto : rentalsDtos){
+        for (Optional<BorrowDto> optionalDto : rentalsDtos){
             assertTrue(optionalDto.isPresent());
 
-            RentalsDto dto = optionalDto.get();
+            BorrowDto dto = optionalDto.get();
             assertNotNull(dto);
         }
 
