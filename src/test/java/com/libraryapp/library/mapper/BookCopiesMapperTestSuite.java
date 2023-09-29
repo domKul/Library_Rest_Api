@@ -26,7 +26,7 @@ public class BookCopiesMapperTestSuite {
     void testData(){
         publications = new Publications(0L,"pub1","author1",2012);
         bookCopies = new BookCopies(0L,publications.getPublicationId(),"status1");
-        bookCopiesDto = new BookCopiesDto(0L,publications.getPublicationId(),"dto1");
+        bookCopiesDto = new BookCopiesDto(0L,"status");
 
     }
 
@@ -53,7 +53,7 @@ public class BookCopiesMapperTestSuite {
         assertEquals(BookCopies.class,bookCopies1.getClass());
         assertEquals(publications.getPublicationId(),bookCopies1.getPublications());
         assertEquals(0L,bookCopies1.getPublications());
-        assertEquals(bookCopiesDto.bookId(),bookCopies1.getBookId());
+
     }
 
     @Test
@@ -71,7 +71,7 @@ public class BookCopiesMapperTestSuite {
         assertEquals(BookCopiesDto.class,bookCopiesDtos.get(0).getClass());
         assertEquals(BookCopiesDto.class,bookCopiesDtos.get(1).getClass());
         assertEquals(BookCopiesDto.class,bookCopiesDtos.get(2).getClass());
-        assertEquals(1L,bookCopiesDtos.get(0).bookId());
+
 
     }
 }

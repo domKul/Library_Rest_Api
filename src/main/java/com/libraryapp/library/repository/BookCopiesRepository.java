@@ -8,10 +8,11 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BookCopiesRepository extends JpaRepository<BookCopies, Long> {
 
-    @Query("SELECT COUNT(bc) FROM BookCopies bc WHERE bc.status = 'Available' AND bc.publications = :publicationId")
-    Long countAvailableCopiesByTitle(long  publicationId);
-
-
+    @Query("SELECT COUNT(bc) " +
+            "FROM BookCopies bc " +
+            "WHERE NOT bc.status = 'Borrowed'" +
+            " AND bc.publications = :publicationId")
+    Long countAvailableCopiesByTitle(long publicationId);
 
 
 }

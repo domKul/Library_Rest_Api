@@ -48,7 +48,7 @@ public class PublicationsService {
         Publications findPublication = publicationsRepository.findById(publicationId)
                 .orElseThrow(() -> new PublicationNotFoundException(ExceptionMessage.WRONG_PUBLICATION_ID.getMessage()));
         publicationsRepository.delete(findPublication);
-        LOGGER.info("Publication with ID " + findPublication.getPublicationId());
+        LOGGER.info("Publication with id " + findPublication.getPublicationId());
     }
 
     public List<PublicationsDto> findAllPublications() {

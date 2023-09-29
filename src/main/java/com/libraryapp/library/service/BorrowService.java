@@ -5,6 +5,7 @@ import com.libraryapp.library.domain.Borrow;
 import com.libraryapp.library.domain.Reader;
 import com.libraryapp.library.domain.dto.BorrowDto;
 import com.libraryapp.library.exception.BookCopyAlreadyTakenException;
+import com.libraryapp.library.exception.BorrowNotFoundException;
 import com.libraryapp.library.exception.ReaderNotFoundException;
 import com.libraryapp.library.mapper.BorrowMapper;
 import com.libraryapp.library.repository.BookCopiesRepository;
@@ -15,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -47,9 +50,9 @@ public class BorrowService {
         }
 
         BookCopies bookCopy = bookCopiesOptional.get();
-        if (bookCopy.getStatus().equals("Taken")) {
-            LOGGER.error("Book copy already taken");
-            throw new BookCopyAlreadyTakenException("Book copy already taken");
+        if (bookCopy.getStatus().equals("Borrowed")) {
+            LOGGER.error("Book copy already borrowed");
+            throw new BookCopyAlreadyTakenException("Book copy already borrowed");
         }
 
         createBorrowTakenStatus(borrowDto, bookCopy);
@@ -57,9 +60,40 @@ public class BorrowService {
 
     private void createBorrowTakenStatus(BorrowDto borrowDto, BookCopies bookCopy) {
         Borrow mappingFromDto = borrowMapper.mapToBorrow(borrowDto);
-        bookCopy.setStatus("Taken");
+        bookCopy.setStatus("Borrowed");
         borrowRepository.save(mappingFromDto);
         LOGGER.info("New book borrow has been created with ID " + mappingFromDto.getBorrowId());
+    }
+
+    @Transactional
+    public void endOfBorrow(final long borrowId){
+        Optional<Borrow> borrowFinded = borrowRepository.findById(borrowId);
+        if(borrowFinded.isPresent()){
+        Optional<BookCopies> getBookCopy = bookCopiesRepository.findById(borrowFinded.get().getBookCopiesId());
+        getBookCopy.ifPresent(bookCopies -> bookCopies.setStatus("Not Borrowed"));
+        LOGGER.info("borrow with id " + borrowId + " ended");
+        }else {
+            LOGGER.error("Borrow with given id " + borrowId + " not found");
+            throw new BorrowNotFoundException("Borrow with given id " + borrowId + " not found");
+
+        }
+        borrowRepository.delete(borrowFinded.get());
+    }
+
+    public List<BorrowDto> findBorrowsOfUser(long userId){
+        try{
+            Optional<Reader> reader = Optional.ofNullable(readersRepository.findById(userId)
+                    .orElseThrow(() -> new ReaderNotFoundException("Reader with id " + userId + " are not existed")));
+
+            if(reader.isPresent()){
+            List<Borrow> allByReader = borrowRepository.findAllByReader(reader.get().getReaderId());
+            return borrowMapper.mapToBorrowsListForUser(allByReader);
+            }
+        }catch (ReaderNotFoundException e){
+            LOGGER.error("Wrong reader id");
+            throw e;
+        }
+        return new ArrayList<>();
     }
 
 

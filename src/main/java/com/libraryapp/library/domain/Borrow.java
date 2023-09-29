@@ -13,32 +13,33 @@ public class Borrow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long borrowId;
-    @JoinColumn(name = "reader_Id")
+
+    @JoinColumn(name = "reader")
     @NonNull
     private Long reader;
 
-    @JoinColumn(name = "book_Id")
+    @JoinColumn(name = "book_Copies_Id")
     @NonNull
     private Long bookCopiesId;
-    private LocalDate rentalStart;
-    private LocalDate rentalEnd;
+    private LocalDate borrowStart;
+    private LocalDate borrowEnd;
 
     public Borrow() {
     }
 
-    public Borrow(Long borrowId, @NonNull Long reader, @NonNull Long bookCopiesId, LocalDate rentalStart, LocalDate rentalEnd) {
+    public Borrow(Long borrowId, @NonNull Long readerId, @NonNull Long bookCopiesId, LocalDate borrowStart, LocalDate borrowEnd) {
         this.borrowId = borrowId;
-        this.reader = reader;
+        this.reader = readerId;
         this.bookCopiesId = bookCopiesId;
-        this.rentalStart = rentalStart;
-        this.rentalEnd = rentalEnd;
+        this.borrowStart = borrowStart;
+        this.borrowEnd = borrowEnd;
     }
 
-    public Borrow(@NonNull Long reader, @NonNull Long bookCopiesId, LocalDate rentalStart, LocalDate rentalEnd) {
-        this.reader = reader;
+    public Borrow(@NonNull Long readerId, @NonNull Long bookCopiesId, LocalDate borrowStart, LocalDate borrowEnd) {
+        this.reader = readerId;
         this.bookCopiesId = bookCopiesId;
-        this.rentalStart = rentalStart;
-        this.rentalEnd = rentalEnd;
+        this.borrowStart = borrowStart;
+        this.borrowEnd = borrowEnd;
     }
 
     public Long getBorrowId() {
@@ -67,20 +68,20 @@ public class Borrow {
         this.bookCopiesId = bookCopiesId;
     }
 
-    public LocalDate getRentalStart() {
-        return rentalStart;
+    public LocalDate getBorrowStart() {
+        return borrowStart;
     }
 
-    public void setRentalStart(LocalDate rentalStart) {
-        this.rentalStart = rentalStart;
+    public void setBorrowStart(LocalDate borrowStart) {
+        this.borrowStart = borrowStart;
     }
 
-    public LocalDate getRentalEnd() {
-        return rentalEnd;
+    public LocalDate getBorrowEnd() {
+        return borrowEnd;
     }
 
-    public void setRentalEnd(LocalDate rentalEnd) {
-        this.rentalEnd = rentalEnd;
+    public void setBorrowEnd(LocalDate borrowEnd) {
+        this.borrowEnd = borrowEnd;
     }
 
     @Override
@@ -88,11 +89,11 @@ public class Borrow {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Borrow borrow = (Borrow) o;
-        return Objects.equals(borrowId, borrow.borrowId) && Objects.equals(rentalStart, borrow.rentalStart) && Objects.equals(rentalEnd, borrow.rentalEnd);
+        return Objects.equals(borrowId, borrow.borrowId) && Objects.equals(borrowStart, borrow.borrowStart) && Objects.equals(borrowEnd, borrow.borrowEnd);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(borrowId, rentalStart, rentalEnd);
+        return Objects.hash(borrowId, borrowStart, borrowEnd);
     }
 }

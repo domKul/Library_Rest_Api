@@ -13,7 +13,7 @@ public class BookCopies {
     @Column(name = "copy_id")
     private Long bookId;
     @JoinColumn(name = "publication_id")
-    @Column(name = "publicationId")
+    @Column(name = "publication_Id")
     private Long publications;
     @NonNull
     private String status;

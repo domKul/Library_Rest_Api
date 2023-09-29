@@ -18,8 +18,8 @@ public class BorrowMapper {
         return new Borrow(
                 borrowDto.readerId(),
                 borrowDto.bookId(),
-                borrowDto.rentalStart(),
-                borrowDto.rentalEnd());
+                borrowDto.borrowStart(),
+                borrowDto.borrowEnd());
     }
 
     public Optional<BorrowDto> mapToBorrowDto(Borrow borrow) {
@@ -29,14 +29,24 @@ public class BorrowMapper {
                                 .orElseThrow(() ->new BookCopyNotFound("Book are null")),
                         Optional.of(rental.getReader())
                                 .orElseThrow(()->new ReaderNotFoundException("Reader are null")),
-                        rental.getRentalStart(),
-                        rental.getRentalEnd()
+                        rental.getBorrowStart(),
+                        rental.getBorrowEnd()
 
                 ));
     }
 
+    public BorrowDto mapToBorrowDtoForUserBorrows(Borrow borrow) {
+        return new BorrowDto(borrow.getReader(),
+                borrow.getBookCopiesId(),
+                borrow.getBorrowStart(),
+                borrow.getBorrowEnd());
+    }
+    public List<BorrowDto> mapToBorrowsListForUser(final List<Borrow> borrow){
+        return borrow.stream().map(this::mapToBorrowDtoForUserBorrows).toList();
+    }
 
-    public List<Optional<BorrowDto>> mapToBorrowDtoList(final List<Borrow> rentals) {
-        return rentals.stream().map(this::mapToBorrowDto).toList();
+
+    public List<Optional<BorrowDto>> mapToBorrowDtoList(final List<Borrow> borrows) {
+        return borrows.stream().map(this::mapToBorrowDto).toList();
     }
 }

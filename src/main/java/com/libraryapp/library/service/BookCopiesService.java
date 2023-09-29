@@ -27,7 +27,9 @@ public class BookCopiesService {
     private final BookCopiesRepository bookCopiesRepository;
     private final PublicationsRepository publicationsRepository;
 
-    public BookCopiesService(BookCopiesMapper bookCopiesMapper, BookCopiesRepository bookCopiesRepository, PublicationsRepository publicationsRepository) {
+    public BookCopiesService(BookCopiesMapper bookCopiesMapper
+            , BookCopiesRepository bookCopiesRepository
+            , PublicationsRepository publicationsRepository) {
         this.bookCopiesMapper = bookCopiesMapper;
         this.bookCopiesRepository = bookCopiesRepository;
         this.publicationsRepository = publicationsRepository;
@@ -43,7 +45,7 @@ public class BookCopiesService {
 
             BookCopies bookCopies = bookCopiesMapper.mapToBookCopies(bookCopiesDto);
             BookCopies save = bookCopiesRepository.save(bookCopies);
-            LOGGER.info("Copy of book have been saved successfully with ID- " + save.getBookId());
+            LOGGER.info("Copy of book have been saved successfully with id " + save.getBookId());
         } catch (DataAccessException e) {
             LOGGER.error("Error while saving");
             throw new DataOperationException("Something went wrong during save" + e.getMessage());
@@ -65,12 +67,17 @@ public class BookCopiesService {
 
     @Transactional
     public void statusChangeOfBookCopy(final long bookCopyId, String status) {
-        BookCopies bookCopy = bookCopiesRepository.findById(bookCopyId)
+        if (status == null || status.isEmpty()) {
+            LOGGER.error("Status cannot be empty or null.");
+            throw new IllegalArgumentException("Status cannot be empty or null.");
+        }
+
+        BookCopies bookCopyFindedById = bookCopiesRepository.findById(bookCopyId)
                 .orElseThrow(() -> new BookCopyNotFound("Wrong id " + bookCopyId));
         try {
-            bookCopy.setStatus(status);
-            bookCopiesRepository.save(bookCopy);
-            LOGGER.info("Status of book copy with ID " + bookCopyId + " updated to " + status);
+            bookCopyFindedById.setStatus(status);
+            bookCopiesRepository.save(bookCopyFindedById);
+            LOGGER.info("Status of book copy with id " + bookCopyId + " updated to " + status);
         } catch (DataAccessException e) {
             LOGGER.error("Error while saving");
             throw new DataOperationException("Something went wrong when updating the status" + e.getMessage());
@@ -84,7 +91,7 @@ public class BookCopiesService {
             return bookCopiesMapper.mapToListBookCopiesDto(allBooks);
         } catch (DataAccessException e) {
             LOGGER.error("loading of books copy list fail");
-            throw new DataOperationException("Something went wrong when finding list of books copy" + e.getMessage());
+            throw new DataOperationException("Data access fail " + e.getMessage());
         }
     }
 

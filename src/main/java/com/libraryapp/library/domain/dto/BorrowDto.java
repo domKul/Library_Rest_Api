@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record BorrowDto
         (Long readerId,
          Long bookId,
-         LocalDate rentalStart,
-         LocalDate rentalEnd
+         LocalDate borrowStart,
+         LocalDate borrowEnd
         ) {
 }

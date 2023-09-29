@@ -14,7 +14,7 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler({ReaderNotFoundException.class})
     public ResponseEntity<ApiErrorResponse> handleReaderNotFoundException(ReaderNotFoundException readerNotFoundException) {
         ApiErrorResponse errorResponse = new ApiErrorResponse(readerNotFoundException.getMessage(),
-                "READER_NOT_FOUND", LocalDate.now());
+                HttpStatus.NOT_FOUND.toString(), LocalDate.now());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
@@ -34,6 +34,13 @@ public class GlobalHttpErrorHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BookCopyNotFound.class)
     public ResponseEntity<ApiErrorResponse>handleBookCopyNotFound(BookCopyNotFound bookCopyNotFound){
         ApiErrorResponse apiErrorResponse = new ApiErrorResponse(bookCopyNotFound.getMessage(),
+                HttpStatus.NOT_FOUND.toString(),LocalDate.now());
+        return new ResponseEntity<>(apiErrorResponse,HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(BorrowNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse>handleBorrowNotFound(BorrowNotFoundException borrowNotFoundException){
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(borrowNotFoundException.getMessage(),
                 HttpStatus.NOT_FOUND.toString(),LocalDate.now());
         return new ResponseEntity<>(apiErrorResponse,HttpStatus.NOT_FOUND);
     }

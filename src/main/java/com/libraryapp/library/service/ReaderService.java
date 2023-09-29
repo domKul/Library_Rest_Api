@@ -35,7 +35,7 @@ public class ReaderService {
         try{
             Reader reader = readerMapper.mapToReader(readerDto);
             Reader save = readersRepository.save(reader);
-            LOGGER.info("Reader saved successfully with ID- " + save.getReaderId());
+            LOGGER.info("Reader saved successfully with id " + save.getReaderId());
             return save;
         }catch (RuntimeException e){
             LOGGER.error("An Error has occurred"+ e.getMessage());
@@ -65,7 +65,7 @@ public class ReaderService {
                     return readerMapper.mapToReaderDto(savedReader);
                 })
                 .orElseThrow(() -> new ReaderNotFoundException(ExceptionMessage.WRONG_READER_ID.getMessage()));
-        LOGGER.info("ReaderUpdate succes");
+        LOGGER.info("Reader update success");
         return readerUpdate;
 
     }
